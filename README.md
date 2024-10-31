@@ -26,3 +26,7 @@ important topics for flexbe to launch the robot
 /robotinobase1/goal_pose : to set position
 
 https://ocw.tudelft.nl/courses/hello-real-world-ros-robot-operating-system/?view=lectures&paging=8 video tutorial for Flexbe
+
+git checkout ->to switch version of the code at github
+
+grep -r ->
