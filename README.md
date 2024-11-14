@@ -29,6 +29,8 @@ https://ocw.tudelft.nl/courses/hello-real-world-ros-robot-operating-system/?view
 
 git checkout <distro> ->to switch version of the code at github
 
+https://github.com/carologistics/fawkes-robotino/blob/master/cfg/conf.d/static_transforms.yaml
+
 grep -r ->
 
 https://github.com/carologistics/fawkes-robotino/tree/master/src/lua/skills/robotino
