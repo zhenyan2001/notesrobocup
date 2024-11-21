@@ -29,11 +29,12 @@ https://ocw.tudelft.nl/courses/hello-real-world-ros-robot-operating-system/?view
 
 git checkout <distro> ->to switch version of the code at github
 
-https://github.com/carologistics/fawkes-robotino/blob/master/cfg/conf.d/static_transforms.yaml
+https://github.com/carologistics/fawkes-robotino/blob/master/cfg/conf.d/static_transforms.yaml axis coordinates
+dyn transform needed gripper xyz dyn
 
 grep -r ->
 
-https://github.com/carologistics/fawkes-robotino/tree/master/src/lua/skills/robotino axis coordinates
+https://github.com/carologistics/fawkes-robotino/tree/master/src/lua/skills/robotino 
 
 train picture https://colab.research.google.com/github/ultralytics/ultralytics/blob/main/examples/tutorial.ipynb
 
