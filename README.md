@@ -36,3 +36,5 @@ grep -r ->
 https://github.com/carologistics/fawkes-robotino/tree/master/src/lua/skills/robotino axis coordinates
 
 train picture https://colab.research.google.com/github/ultralytics/ultralytics/blob/main/examples/tutorial.ipynb
+
+actions must have capital letter zB Gripper.action
