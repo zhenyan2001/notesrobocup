@@ -51,3 +51,4 @@ angular:
   y: 0.0
   z: 0.0
 "
+ros2 topic echo /tf | grep -B 1 -A 1 plate_top to get message before and after
