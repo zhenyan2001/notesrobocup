@@ -38,3 +38,6 @@ https://github.com/carologistics/fawkes-robotino/tree/master/src/lua/skills/robo
 train picture https://colab.research.google.com/github/ultralytics/ultralytics/blob/main/examples/tutorial.ipynb
 
 actions must have capital letter zB Gripper.action
+
+![image](https://github.com/user-attachments/assets/f2ea371e-1ced-4fe9-b611-d8d649c049d3)
+
