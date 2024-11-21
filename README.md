@@ -41,3 +41,12 @@ actions must have capital letter zB Gripper.action
 
 ![image](https://github.com/user-attachments/assets/f2ea371e-1ced-4fe9-b611-d8d649c049d3)
 
+ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "linear:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+angular:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+"
