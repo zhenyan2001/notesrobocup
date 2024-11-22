@@ -52,3 +52,13 @@ angular:
   z: 0.0
 "
 ros2 topic echo /tf | grep -B 1 -A 1 plate_top to get message before and after
+
+to run action server
+ros2 launch dynamic_tf dynamic_tf.launch.py
+ros2 run dynamic_tf gripper_action_server
+ros2 action send_goal /gripper gripper_msgs/action/Gripper "x_target: 0.0
+y_target: 0.0
+z_target: 0.0
+frame: 'gripper_x_origin'
+"
+
