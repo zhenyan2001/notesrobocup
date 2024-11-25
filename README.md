@@ -63,3 +63,5 @@ frame: 'gripper_x_origin'
 "
 
 very important. never touch _init_.py !!!!!!!!!!!!!!!!
+
+chmod +x /chown +X to allow program to be executable
