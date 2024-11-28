@@ -1,0 +1,18 @@
+[console_scripts]
+dyn_tf_base_cam = dynamic_tf.dyn_tf_base_cam:main
+dyn_tf_gripper_x_ori = dynamic_tf.dyn_tf_gripper_x_ori:main
+dyn_tf_gripper_y_ori = dynamic_tf.dyn_tf_gripper_y_ori:main
+dyn_tf_gripper_z_ori = dynamic_tf.dyn_tf_gripper_z_ori:main
+gripper_action_server = dynamic_tf.gripper_action_server:main
+static_tf = dynamic_tf.static_tf:main
+static_tf_back_laser = dynamic_tf.static_tf_back_laser:main
+static_tf_base_laser = dynamic_tf.static_tf_base_laser:main
+static_tf_cam_tag = dynamic_tf.static_tf_cam_tag:main
+static_tf_end_effector_home = dynamic_tf.static_tf_end_effector_home:main
+static_tf_front_laser = dynamic_tf.static_tf_front_laser:main
+static_tf_gripper = dynamic_tf.static_tf_gripper:main
+static_tf_gripper_x_origin = dynamic_tf.static_tf_gripper_x_origin:main
+static_tf_gripper_y_origin = dynamic_tf.static_tf_gripper_y_origin:main
+static_tf_gripper_z_origin = dynamic_tf.static_tf_gripper_z_origin:main
+static_tf_plate_top = dynamic_tf.static_tf_plate_top:main
+test = dynamic_tf.test:main
