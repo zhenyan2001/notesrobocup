@@ -1,5 +1,9 @@
 import rclpy
 import threading
+import collections
+
+import time
+from rclpy.executors import MultiThreadedExecutor
 from rclpy.action import ActionServer, GoalResponse, CancelResponse
 from rclpy.node import Node
 from tf2_ros import Buffer, TransformListener, TransformBroadcaster
@@ -26,37 +30,29 @@ class GripperActionServer(Node):
             'gripper',
             execute_callback=self.execute_callback,
             goal_callback=self.goal_callback,
-            handle_accepted_callback=self.handle_accepted_callback,
             cancel_callback=self.cancel_callback,
             # callback_group=ReentrantCallbackGroup()
         )
     
-        self._goal_lock = threading.Lock()  
-        self._goal_handle = None  # Keep track of the active goal handle
+        self._goal_queue = collections.deque()
+        self._goal_queue_lock = threading.Lock()
+        self._current_goal = None
+
         self.publisher_ = self.create_publisher(TransformStamped, '/tf', 10)
         self.cmd_vel_publisher = self.create_publisher(Twist, '/cmd_vel', 10)
         self.feedback_timer = None  # Timer for feedback updates
     def destroy(self):
         self._action_server.destroy()
         super().destroy_node()
-    def goal_callback(self, goal_request):
-        """Accept or reject a client request to begin an action."""
-        self.get_logger().info('Received goal request')
-        return GoalResponse.ACCEPT
-    def handle_accepted_callback(self, goal_handle):
-        with self._goal_lock:
-            # This server only allows one goal at a time
-            if self._goal_handle is not None and self._goal_handle.is_active:
-                self.get_logger().info('Aborting previous goal')
-                # Abort the existing goal
-                self._goal_handle.abort()
-            self._goal_handle = goal_handle
 
-        goal_handle.execute()
-    def cancel_callback(self, goal):
-        """Accept or reject a client request to cancel an action."""
-        self.get_logger().info('Received cancel request')
+    def goal_callback(self, goal_request):
+        self.get_logger().info("Received goal request")
+        return GoalResponse.ACCEPT
+
+    def cancel_callback(self, goal_handle):
+        self.get_logger().info("Received cancel request")
         return CancelResponse.ACCEPT
+
     def execute_callback(self, goal_handle):
         self.get_logger().info(f"Executing goal to move to target position: {goal_handle.request}")
 
@@ -86,18 +82,22 @@ class GripperActionServer(Node):
                 orientation = transform.transform.rotation
                 self.get_logger().info(
                     f"Relative orientation (base_link -> goal_handle.request.frame): "
-                   f"End-effector orientation: x={orientation.x}, y={orientation.y}, z={orientation.z}, w={orientation.w}"
+                    f"End-effector orientation: x={orientation.x}, y={orientation.y}, z={orientation.z}, w={orientation.w}"
                 )
                 feedback_msg.position_x = goal_handle.request.x_target - current_position.x
                 feedback_msg.position_y = goal_handle.request.y_target - current_position.y
                 feedback_msg.position_z = goal_handle.request.z_target - current_position.z
+                # feedback_msg.x_angle = goal_handle.request.raw_target - orientation.x
+                # feedback_msg.y_angle = goal_handle.request.pitch_target - orientation.y
+                # feedback_msg.z_angle = goal_handle.request.yaw_target - orientation.z
+                # feedback_msg.w_angle = goal_handle.request.qua_target - orientation.w
                 goal_handle.publish_feedback(feedback_msg)
 
                 # Compute velocity
                 cmd_vel = Twist()
-                cmd_vel.linear.x = 1 * feedback_msg.position_x
-                cmd_vel.linear.y = 1 * feedback_msg.position_y
-                cmd_vel.linear.z = 1 * feedback_msg.position_z
+                cmd_vel.linear.x = 3 * feedback_msg.position_x
+                cmd_vel.linear.y = 3 * feedback_msg.position_y
+                cmd_vel.linear.z = 3 * feedback_msg.position_z
 
                 # Check if the target position is reached (within a small tolerance)
                 tolerance = 0.01  # Define your tolerance
@@ -105,9 +105,9 @@ class GripperActionServer(Node):
                     abs(feedback_msg.position_y) <= tolerance and
                     abs(feedback_msg.position_z) <= tolerance):
                     target_reached = True
-                    result.success = True
-                    goal_handle.succeed()
-            
+                    #result.success = True
+                    self.feedback_timer.cancel()
+
                     # Stop the robot by publishing zero velocities
                     stop_cmd_vel = Twist()
                     stop_cmd_vel.linear.x = 0.0
@@ -115,9 +115,12 @@ class GripperActionServer(Node):
                     stop_cmd_vel.linear.z = 0.0
                     self.cmd_vel_publisher.publish(stop_cmd_vel)
             
-                    self.feedback_timer.cancel()
+                    goal_handle.succeed()
+ 
                     self.get_logger().info("Target position reached. Robot stopped.")
-                    return
+                    result = Gripper.Result()
+                    result.success = True
+                    return result
 
 
                 # Publish the command velocity
@@ -135,30 +138,19 @@ class GripperActionServer(Node):
 
         # Block until the goal completes or is canceled
         while not target_reached and rclpy.ok():
-            rclpy.spin_once(self, timeout_sec=0.001)
-
+            time.sleep(0.1)
+        result.success = True
         return result
 
-    def goal_callback(self, goal_request):
-        self.get_logger().info("Received goal request")
-        return GoalResponse.ACCEPT
-
-    def cancel_callback(self, goal_handle):
-        self.get_logger().info("Received cancel request")
-        if self.feedback_timer:
-            self.feedback_timer.cancel()
-        return CancelResponse.ACCEPT
-
-    def destroy(self):
-        if self.feedback_timer:
-            self.feedback_timer.cancel()
-        self._action_server.destroy()
-        super().destroy_node()
+    
 def main(args=None):
-    rclpy.init(args=args)
-    gripper_action_server = GripperActionServer()
+    
     try:
-        rclpy.spin(gripper_action_server)
+        rclpy.init(args=args)
+        gripper_action_server = GripperActionServer()
+        executor = MultiThreadedExecutor()
+        executor.add_node(gripper_action_server)
+        executor.spin()
     except KeyboardInterrupt:
         pass
     finally:
