@@ -67,3 +67,6 @@ very important. never touch _init_.py !!!!!!!!!!!!!!!!
 chmod +x /chown +X to allow program to be executable
 ping ip address - to check whether it"s responding
 /home/robotino/ros2/flexbe_ws/install/flex_nav_flexbe_states/lib/python3.12/site-packages/flex_nav_flexbe_states
+
+ssh-copy-id robot@192.168.0.208
+
