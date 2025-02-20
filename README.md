@@ -69,4 +69,4 @@ ping ip address - to check whether it"s responding
 /home/robotino/ros2/flexbe_ws/install/flex_nav_flexbe_states/lib/python3.12/site-packages/flex_nav_flexbe_states
 
 ssh-copy-id robot@192.168.0.208
-
+touch COLCON_IGNORE skip a certain file when its not compatible to build(colcon build)
