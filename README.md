@@ -70,3 +70,6 @@ ping ip address - to check whether it"s responding
 
 ssh-copy-id robot@192.168.0.208
 touch COLCON_IGNORE skip a certain file when its not compatible to build(colcon build)
+
+![image](https://github.com/user-attachments/assets/d9e10a67-bf5b-4f5f-a2e7-eb804a5670a4)
+
