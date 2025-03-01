@@ -73,3 +73,5 @@ touch COLCON_IGNORE skip a certain file when its not compatible to build(colcon 
 
 ![image](https://github.com/user-attachments/assets/d9e10a67-bf5b-4f5f-a2e7-eb804a5670a4)
 
+ros2 run tf2_ros static_transform_publisher --x -2 --y 4 --z 3 --frame-id base_link --child-frame-id target
+
