@@ -75,3 +75,12 @@ touch COLCON_IGNORE skip a certain file when its not compatible to build(colcon 
 
 ros2 run tf2_ros static_transform_publisher --x -2 --y 4 --z 3 --frame-id base_link --child-frame-id target
 https://matthew-brett.github.io/transforms3d/reference/transforms3d._gohlketransforms.html#angle-between-vectors
+ros2 action send_goal /gigatino/move gigatino_msgs/action/Move "relative: false
+x: 10.0
+y: 0.0
+z: 6.0
+target_frame: 'base_link'
+gripper_state: false
+use_gripper: false
+"
+
