@@ -85,4 +85,5 @@ use_gripper: false
 "
 
 install python package sudo dnf install python3-(files)
+gedit .ssh/config
 
