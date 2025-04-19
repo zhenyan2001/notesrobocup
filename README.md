@@ -87,6 +87,7 @@ use_gripper: false
 install python package sudo dnf install python3-(files)
 gedit .ssh/config
 
-git diff HEAD~ > ~/aruco.diff/ <file> > ~/<file>.diff
-scp rb2:/home/robotino/<file>
+git diff  > ~/<file>.diff
+cat ~/<file>.diff
+scp rb2:/home/robotino/<file> .
 git apply<file> then git add commit and push
