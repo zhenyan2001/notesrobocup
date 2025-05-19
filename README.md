@@ -91,3 +91,4 @@ git diff  > ~/<file>.diff
 cat ~/<file>.diff
 scp rb2:/home/robotino/<file> .
 git apply<file> then git add commit and push
+pkgs.org -cd dev/ppa upload to copr
