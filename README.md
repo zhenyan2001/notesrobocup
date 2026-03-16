@@ -98,3 +98,4 @@ sudo chown zhenyan:zhenyan /dev/ttyACM1
 <img width="875" height="528" alt="image" src="https://github.com/user-attachments/assets/25c2d535-08a9-4c24-9505-c97b35301482" />
 after that delete the line that links to the robots
 
+colcon build --cmake-args -DBUILD_TESTING=OFF
